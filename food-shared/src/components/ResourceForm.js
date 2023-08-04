@@ -37,7 +37,6 @@ const ResourceForm = () => {
         value={formData.name}
         onChange={handleChange} />
 
-        {/* Add'l form input fields here */}
         <input type= 'text'
         name='address'
         placeholder='Resource Address:'
@@ -67,6 +66,8 @@ const ResourceForm = () => {
         placeholder='Accessibility Notes:'
         value={formData.accessibility}
         onChange={handleChange} />
+
+        {/* Add add'l fields here */}
         
         <button type='submit'>Submit</button>
     </form>
