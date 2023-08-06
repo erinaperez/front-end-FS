@@ -7,7 +7,7 @@ const ResourceDirectory = () => {
   useEffect(() => {
       const getResources = async () => {
           try {
-              const response = await axios.get('/api/food-resources');
+              const response = await axios.get("http://localhost:5501/getResources");
               setResources(response.data);
           } catch (error) {
               console.log('Error getting resources:', error);
@@ -25,8 +25,10 @@ const ResourceDirectory = () => {
           <p>{resource.address}</p>
           <p>{resource.typeOfResource}</p>
           <p>{resource.operatingHours}</p>
+          <p>{resource.affiliation}</p>
           <p>{resource.indoorsOrOutdoors}</p>
           <p>{resource.accessibility}</p>
+          <p>{resource.lastUpdated}</p>
           {/* Add more fields here */}
         </div>
         ))}
