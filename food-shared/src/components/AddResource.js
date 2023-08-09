@@ -17,7 +17,7 @@ const AddResource = () => {
     try {
       const response = await axios.post('/api/food-resources', formData);
       // Show success msg to user on submit
-      console.log("Thank you for submitting a resource! If it meets the criteria for the directory it will be added and viewable in the map in 2-4 business days.", response.data);
+      console.log("Thank you for submitting a resource. If it meets the criteria for the directory it will be added and viewable in the map in 2-4 business days.", response.data);
     } catch (error) {
       console.log('Error submitting:', error);
       // console.error('Failed to submit:', error.response.data);
@@ -29,7 +29,7 @@ const AddResource = () => {
   };
 
   return (
-    <div>
+    <div className="AddResource">
       <h2>Add a Resource</h2>
       <form onSubmit={handleSubmit}>
         {/* Input fields for submission form */}

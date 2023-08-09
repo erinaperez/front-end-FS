@@ -1,95 +1,121 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import axios from "axios";
-import HomePage from "./pages/HomePage";
-import AddResourcePage from "./pages/AddResourcePage";
-import AboutPage from "./pages/AboutPage";
-import Map from "./components/Map";
-import ResourceDirectory from "./components/ResourceDirectory";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, } from "react-router-dom";
 import AddResource from "./components/AddResource";
 import About from "./components/About";
+import ResourceMap from "./components/ResourceMap";
+import ResourceDirectory from "./components/ResourceDirectory";
+import Nav from "./components/Nav";
+import "./style.css"
 
-const App = () => {
-  // State to store resources and selected resource
-  const [resources, setResources] = useState([]);
-  const [selectedResource, setSelectedResource] = useState(null);
-
-  // Get  resources
-  useEffect(() => {
-    const getResources = async () => {
-      try {
-        const response = await axios.get('/api/resources'); // TODO: replace api/resources with correct endpoint
-        setResources(response.data);
-      } catch (error) {
-        console.log("Error getting resources", error);
-      }
+  const App = () => {
+    // State to store zip code for searching resources
+    const [zipCode, setZipCode] = useState("");
+  
+    // Handler zip code input change
+    const handleZipCodeChange = (event) => {
+      setZipCode(event.target.value);
     };
-    getResources();
-  }, []);
-
-  // Get selected resource
-  useEffect(() => {
-    const getSelectedResource = async () => {
-      if (selectedResource) {
-        try {
-          const response = await axios.get('/api/resources/' + selectedResource._id);
-          setSelectedResource(response.data);
-        } catch (error) {
-          console.log("Error getting selected resource", error);
-        }
-      }
-    };
-    getSelectedResource();
-  }, [selectedResource]);
-
+  
   return (
     <Router>
-      <div>
-        {/* Define nav links */}
+      <div className="app-container">
+        <Nav />
+        {/* Home Page */}
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path='/add-resource-page' element={<AddResourcePage />} />
-          <Route path='/about' element={<AboutPage />} />
-        </Routes>
-        {/* Map and Directory maybe don't need their own links? They will live on Homepage */}
-        <Map 
-          resources={resources} 
-          selectedResource={selectedResource} 
-          setSelectedResource={setSelectedResource} />
-        <ResourceDirectory
-          resources={resources}
-          selectedResource={selectedResource}
-          setSelectedResource={setSelectedResource} />
-      </div>
-    </Router>
+          <Route 
+            path="/" 
+            element={
+              <div className="home">
+                <h1>Welcome to Food Shared</h1>
+                <p>Food Shared is a directory of food pantries, free fridges, etc.</p>
+                <label htmlFor="zipCodeInput">Enter Zip Code: </label>
+                <input
+                type="text"
+                id="zipCodeInput"
+                value={zipCode}
+                onChange={handleZipCodeChange}
+              />
+              <ResourceMap zipCode={zipCode} /> {/* Passing zipCode to the ResourceMap component */}
+              <ResourceDirectory zipCode={zipCode} /> {/* Passing zipCode to the ResourceDirectory component */}
+            </div>
+          }
+        />
+        {/* Add Resource Page */}
+        <Route path="/add-resource" element={<AddResource />} />
+        {/* About Page */}
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </div>
+  </Router>
   );
-};
+}
 
 export default App;
 
 
 
-// Get resources from MongoDB Atlas using axios and useEffect and update state with setResources
-//   useEffect(() => {
-//     axios.get('/api/resources')
-//       .then(response => {
-//         setResources(response.data);
-//       })
-//       .catch(error => {
-//         console.log(error);
-//     });
-//   }, []);
 
-//   // Get selected resource from MongoDB Atlas using axios and useEffect and update state with setSelectedResource
-//   useEffect(() => {
-//     if (selectedResource) {
-//       axios.get('/api/resources/' + selectedResource._id)
-//         .then(response => {
-//           setSelectedResource(response.data);
-//         })
-//         .catch(error => {
-//           console.log(error);
-//       });
-//     };
-//   }, [selectedResource]);
 
+//   return (
+//     <Router>
+//       <div className="app-container">
+//         {/* NAVIGATION to improve later */}
+//         <Nav />
+//         <Routes>
+//           <Route
+//             path="/"
+//             element={
+//               <div className="HomePage">
+                // <h1>Welcome to Food Shared</h1>
+                // <p>Food Shared is a resource directory for users to find food pantries, free fridges, etc., etc. .</p>
+                // <label htmlFor="zipCodeInput">Enter Zip Code: </label>
+                // <input
+                //   id="zipCodeInput"
+                //   type="text"
+                //   value={zipCode}
+                //   onChange={handleZipCodeChange}
+                // />
+                // <Map zipCode={zipCode} /> {/* Pass zipCode to Map.js */}
+                // <ResourceDirectory zipCode={zipCode} /> {/* Pass zipCode to ResourceDirectory.js */}
+//               </div>
+//             }
+//           />
+//           {/* AddResource Page */}
+//           <Route path="/add-resource" element={<AddResource />} />
+//           {/* About Page */}
+//           <Route path="/about" element={<About />} />
+//         </Routes>
+//       </div>
+//     </Router>
+//   );
+// };
+
+// export default App;
+
+
+// // {/* <Router>
+// {/* <div>
+//   <nav>
+//     <ul>
+//       <li>
+//         <Link to="/">Home</Link>
+//       </li>
+//       <li>
+//         <Link to="/about">About</Link>
+//       </li>
+//       <li>
+//       <Link to="/add-resource">Add a Resource</Link>
+//       </li>
+//     </ul>
+//   // </nav> */
+//   // {/* Define paths for links */}
+
+// //   <Routes>
+// //     <Route path="/" element={<HomePage />} />
+// //     <Route path='/about' element={<AboutPage />} />
+// //     <Route path='/add-resource' element={<AddResourcePage />} />
+// //   </Routes>
+// // </div>
+// // </Router>
+// // );
+// // }; */}
