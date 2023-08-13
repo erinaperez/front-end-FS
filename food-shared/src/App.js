@@ -5,7 +5,9 @@ import About from "./components/About";
 import ResourceMap from "./components/ResourceMap";
 import ResourceDirectory from "./components/ResourceDirectory";
 import Nav from "./components/Nav";
+import Header from "./components/Header";
 import "./style.css"
+// import '@fontsource/inter';
 
   const App = () => {
     // State to store zip code for searching resources
@@ -20,23 +22,40 @@ import "./style.css"
     <Router>
       <div className="app-container">
         <Nav />
-        {/* Home Page */}
+        <Header />
         <Routes>
           <Route 
             path="/" 
             element={
               <div className="home">
                 <h1>Welcome to Food Shared</h1>
-                <p>Food Shared is a directory of food pantries, free fridges, etc.</p>
-                <label htmlFor="zipCodeInput">Enter Zip Code: </label>
+                <div className="home-content">
+                <p>Find food and other resources in the directory. Resources included here have no requirements for ID, address, or residency to access, are primarily outdoors, drop-in/drop-by friendly, are community or volunteer run, have broad ranges of open hours, and are not associated with religious or government organizations. Some offer a variety of resources such as produce, toiletries, clothing, or homemade meals. </p>
+                <div className="zip-code-container">
+                  <label htmlFor="zipCodeInput">
+                    Enter Zip Code: 
+                  </label>
                 <input
-                type="text"
-                id="zipCodeInput"
-                value={zipCode}
-                onChange={handleZipCodeChange}
-              />
-              <ResourceMap zipCode={zipCode} /> {/* Passing zipCode to the ResourceMap component */}
-              <ResourceDirectory zipCode={zipCode} /> {/* Passing zipCode to the ResourceDirectory component */}
+                  type="text"
+                  id="zipCodeInput"
+                  value={zipCode}
+                  onChange={handleZipCodeChange}
+                  className="zip-code-input"
+                />
+                </div>
+              </div>
+                <div className="row">
+                  <div className="column">
+                    <div className="map-container">
+                      <ResourceMap zipCode={zipCode} /> {/* Passing zipCode to the ResourceMap component */}
+                    </div>
+                  </div>
+                  <div className="column">
+                    <div className="resource-directory-container">
+                      <ResourceDirectory zipCode={zipCode} /> {/* Passing zipCode to the ResourceDirectory component */}
+                  </div>
+                </div>
+              </div>
             </div>
           }
         />

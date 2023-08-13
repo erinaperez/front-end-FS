@@ -6,9 +6,12 @@ const AddResource = () => {
     name: '',
     address: '',
     typeOfResource: '',
+    affiliation: '',
     operatingHours: '',
     indoorsOrOutdoors: '',
     accessibility: '',
+    notes: '',
+    contact: '',
     // Add'll fields here
   });
 
@@ -76,9 +79,21 @@ const AddResource = () => {
           onChange={handleChange} 
         />
         <input type= 'text'
+          name='notes'
+          placeholder='Additional Notes:'
+          value={formData.notes}
+          onChange={handleChange} 
+        />
+        <input type= 'text'
           name='lastUpdated'
           placeholder='Date (e.g., 08/05/2023):'
           value={formData.lastUpdated}
+          onChange={handleChange} 
+        />
+        <input type= 'text'
+          name='contace'
+          placeholder='Contact (optional):'
+          value={formData.contact}
           onChange={handleChange} 
         />
         {/* Add add'l fields here */}

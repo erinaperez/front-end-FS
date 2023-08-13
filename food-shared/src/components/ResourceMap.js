@@ -18,8 +18,8 @@ const ResourceMap = ({ zipCode }) => {
   const [viewport, setViewport] = useState({
     latitude: 37.7749,
     longitude: -122.4194,
-    width: "100%",
-    height: "100%",
+    width: "100vw",
+    height: "100vw",
     zoom: 10, // adjust zoom level
     mapStyle: "mapbox://styles/mapbox/streets-v11",
   });
@@ -38,7 +38,7 @@ const ResourceMap = ({ zipCode }) => {
       const [longitude, latitude] = response.data.features[0].center;
 
       // Get resources within 10 mi of zip code
-      axios.get(`/api/resources?latitude=${latitude}&longitude=${longitude}&radius=10`)
+      axios.get(`/?latitude=${latitude}&longitude=${longitude}&radius=10`)
         .then((response) => {
           setResources(response.data);
         })
@@ -69,37 +69,41 @@ const ResourceMap = ({ zipCode }) => {
   };
 
   return (
-    <Map {...viewport} onViewportChange={setViewport}>
-      {/* Markers */}
-      {resources.map((resource) => (
-        <Marker
-          key={resource._id}
-          latitude={resource.latitude}
-          longitude={resource.longitude}
-          onClick={() => handleMarkerClick(resource)}
-        >
-          {/* Marker Content */}
-          <button className="marker-btn">
-            <img src="/marker.png" alt="marker" /> {/* replace with marker image */}
-          </button>
-        </Marker>
-      ))}
-      {/* Popup for selected resource */}
-      {selectedResource && (
-        <Popup
-          latitude={selectedResource.latitude}
-          longitude={selectedResource.longitude}
-          onClose={handleClosePopup}
-        >
-          <div className="map-popup"> {/* style popup */}
-            <h3>{selectedResource.name}</h3>
-            <p>{selectedResource.address}</p>
-            <p>{selectedResource.operatingHours}</p>
-            {/* add any other resource details to show in marker view */}
-          </div>
-        </Popup>
-      )}
-    </Map>
+    <div className="resource-map">
+      {/* style={{width: '100%', height:'100%', margin: 'auto'}}; */}
+      <h2>Map</h2>
+      <Map {...viewport} onViewportChange={setViewport}>
+        {/* Markers */}
+        {resources.map((resource) => (
+          <Marker
+            key={resource._id}
+            latitude={resource.latitude}
+            longitude={resource.longitude}
+            onClick={() => handleMarkerClick(resource)}
+          >
+            {/* Marker Content */}
+            <button className="marker-btn">
+              <img src="/marker.png" alt="marker" /> {/* replace with marker image */}
+            </button>
+          </Marker>
+        ))}
+        {/* Popup for selected resource */}
+        {selectedResource && (
+          <Popup
+            latitude={selectedResource.latitude}
+            longitude={selectedResource.longitude}
+            onClose={handleClosePopup}
+          >
+            <div className="map-popup"> {/* style popup */}
+              <h3>{selectedResource.name}</h3>
+              <p>{selectedResource.address}</p>
+              <p>{selectedResource.operatingHours}</p>
+              {/* add any other resource details to show in marker view */}
+            </div>
+          </Popup>
+        )}
+      </Map>
+    </div>
   );
 };
 

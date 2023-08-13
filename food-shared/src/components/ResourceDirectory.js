@@ -1,55 +1,71 @@
 import React, { useEffect, useState } from 'react';
-import ResourceMap from './ResourceMap';
 import axios from 'axios';
 
-const ResourceDirectory = () => {
+const ResourceDirectory = (zipCode) => {
+
   // State to store resources and selected resource
   const [resources, setResources] = useState([]);
   const [selectedResource, setSelectedResource] = useState(null);
 
-  // Get  resources
-  useEffect(() => {
+  // Get all resources from backend on page load
+  useEffect(() => {  
     const getResources = async () => {
       try {
-        const response = await axios.get('/api/resources'); // TODO: replace api/resources with correct endpoint
+        const response = await axios.get("http://localhost:5000/resources");
         setResources(response.data);
+        console.log(response.data);
       } catch (error) {
-        console.log("Error getting resources", error);
-      }
-    };
-    getResources();
-  }, []);
-
-  // Get selected resource
-useEffect(() => {
-  const getSelectedResource = async () => {
-    if (selectedResource) {
-      try {
-        const response = await axios.get('/api/resources/' + selectedResource._id);
-        setSelectedResource(response.data);
-      } catch (error) {
-        console.log("Error getting selected resource", error);
+        console.log("Error getting all resources", error);
       }
     }
-  };
-  getSelectedResource();
-}, [selectedResource]);
+  getResources();
+  }, []);
+
+  // Get resources for input zip code
+  useEffect(() => {
+    const getResourcesByZip = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/getInZipCode');
+        setResources(response.data);
+      } catch (error) {
+        console.log("Error getting zipcode resources", error);
+      }
+    };
+    getResourcesByZip(zipCode);
+  }, [zipCode]);
+
+
+  // Get selected resource
+  useEffect(() => {
+    const getSelectedResource = async () => {
+      if (selectedResource) {
+        try {
+          const response = await axios.get('http://localhost:5000/' + selectedResource._id);
+          setSelectedResource([response.data]);
+        } catch (error) {
+          console.log("Error getting selected resource", error);
+        }
+      }
+    };
+    getSelectedResource();
+  }, []);
 
   return (
     <div className="resource-directory">
       <h2>Resource Directory</h2>
       <ul>
-        {resources.map((resource) => (
+        {resources.map(resource => (
           <li key={resource._id}>
-            <h3>{resource.name}</h3>
+            <p>{resource.name}</p>
             <p>{resource.address}</p>
             <p>{resource.typeOfResource}</p>
             <p>{resource.operatingHours}</p>
             <p>{resource.affiliation}</p>
             <p>{resource.indoorsOrOutdoors}</p>
             <p>{resource.accessibility}</p>
+            <p>{resource.notes}</p>
             <p>{resource.lastUpdated}</p>
-            {/* Add more fields here */}
+            <p>{resource.contact}</p>
           </li>
           ))}
       </ul>
@@ -59,31 +75,18 @@ useEffect(() => {
 
 export default ResourceDirectory;
 
-
-
-{/* import React from "react";
-
-const ResourceDirectory = ({ resources, selectedResource }) => {
-  return (
-    <div className="resource-directory">
-      <h2>Resource Directory</h2>
-      <ul>
-        {resources.map((resource) => (
-          <li 
-            key={resource._id} 
-            className={resource === selectedResource ? "selected" : ""}
-            >
-            <h3>{resource.name}</h3>
-            <p>{resource.address}</p>
-            <p>{resource.typeOfResource}</p>
-            <p>{resource.operatingHours}</p>
-            <p>{resource.affiliation}</p>
-            <p>{resource.indoorsOrOutdoors}</p>
-            <p>{resource.accessibility}</p>
-            <p>{resource.lastUpdated}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}; */}
+ // const objectTest = {
+  //   "_id": {
+  //     "$oid": "64cec79da2fd7672c2f20d66"
+  //   },
+  //   "name": "Brentwood Mini Fridge & Pantry",
+  //   "address": "6242 SE Duke St, Portland, OR 97206",
+  //   "typeOfResource": "Mini fridge and pantry",
+  //   "affiliation": "Residential",
+  //   "operatingHours": "Open access",
+  //   "indoorsOrOutdoors": "Outdoors",
+  //   "accessibility": "Three stairs required for access",
+  //   "lastUpdated": "08/04/3300",
+  //   "contact": "",
+  //   "notes": "None"
+  // };
