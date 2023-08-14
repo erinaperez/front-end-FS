@@ -2,18 +2,7 @@ import React, { useEffect, useState } from "react";
 import Map, { Marker, Popup } from "react-map-gl";
 import axios from "axios";
 
-// User enters zip code
-// Zip code is passed to backend
-// Backend gets latitude and longitude of that zip code and 10 mi radius? (radius is stretch goal)
-// To do this, make API call using Mapbox Geocoding API for geolocation basesd on zip.
-// Backend queries the database for resources within 10 mi of that zip code (using the lat/long coords)
-// Backend returns resources within radius, send to frontend
-// Frontend displays resources on map and in directory
-
-// https://docs.mongodb.com/manual/tutorial/geospatial-tutorial/
-// https://docs.mongodb.com/manual/tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/
-
-const ResourceMap = ({ zipCode }) => {
+const ResourceMap = () => {
   // Initial viewport state
   const [viewport, setViewport] = useState({
     latitude: 37.7749,
@@ -27,46 +16,45 @@ const ResourceMap = ({ zipCode }) => {
   const [resources, setResources] = useState([]);
   const [selectedResource, setSelectedResource] = useState(null);
 
-  // Get lat and long of zip code using Mapbox Geocoding API
+  // Get all resources from backend on page load
   useEffect(() => {
-    axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${zipCode}.json`,{
-      params: {
-        access_token: process.env.REACT_APP_MAPBOX_TOKEN,
-      },
-    })
-    .then((response) => {
-      const [longitude, latitude] = response.data.features[0].center;
-
-      // Get resources within 10 mi of zip code
-      axios.get(`/?latitude=${latitude}&longitude=${longitude}&radius=10`)
-        .then((response) => {
-          setResources(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching resources:", error);
-        });
-    
-      // Update viewport to center on zip code
-      setViewport({
-        ...viewport,
-        latitude,
-        longitude,
+    axios.get("http://localhost:5000/resources")
+      .then((response) => {
+        setResources(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error getting resources: ", error);
       });
-    })
-    .catch((error) => {
-      console.error("Error fetching coordinates:", error);
-    });
-  }, [zipCode]);
+  }, []);
 
-  // Handle marker click
-  const handleMarkerClick = (resource) => {
-    setSelectedResource(resource);
-  };
+  // Convert address to latitude and longitude
+  useEffect(() => {
+    const getCoordinates = async () => {
+      if (resources) {
+        try {
+          const response = await axios.get(
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${resources.address}.json?access_token=${process.env.REACT_APP_ACCESS_MAPBOX_TOKEN}`
+          );
+          setResources(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.log("Error getting coordinates", error);
+        }
+      }
+    };
+    getCoordinates();
+  }, []);
 
-  // Handle popup close
-  const handleClosePopup = () => {
-    setSelectedResource(null);
-  };
+    // Handle marker click
+    const handleMarkerClick = (resource) => {
+      setSelectedResource(resource);
+    };
+
+    // Handle popup close
+    const handleClosePopup = () => {
+      setSelectedResource(null);
+    };
 
   return (
     <div className="resource-map">
@@ -98,6 +86,7 @@ const ResourceMap = ({ zipCode }) => {
               <h3>{selectedResource.name}</h3>
               <p>{selectedResource.address}</p>
               <p>{selectedResource.operatingHours}</p>
+              <p>Click to see more info! add directory link</p>
               {/* add any other resource details to show in marker view */}
             </div>
           </Popup>
@@ -108,6 +97,65 @@ const ResourceMap = ({ zipCode }) => {
 };
 
 export default ResourceMap;
+
+
+
+
+// zipCode for future use:
+
+// User enters zip code
+// Zip code is passed to backend
+// Backend gets latitude and longitude of that zip code and 10 mi radius? (radius is stretch goal)
+// To do this, make API call using Mapbox Geocoding API for geolocation basesd on zip.
+// Backend queries the database for resources within 10 mi of that zip code (using the lat/long coords)
+// Backend returns resources within radius, send to frontend
+// Frontend displays resources on map and in directory
+
+// https://docs.mongodb.com/manual/tutorial/geospatial-tutorial/
+// https://docs.mongodb.com/manual/tutorial/calculate-distances-using-spherical-geometry-with-2d-geospatial-indexes/
+
+
+// MOVE ALL THE ZIP CODE HANDLING INTO HERE
+// COMBINE THE DIRECTORY AND MAP INTO ONE COMPONENT
+// REFACTOR THE DIRECTORY TO USE THE MAP COMPONENT
+// Use the react-map-gl tutorial to get initial map working 
+
+// For GeoJSON geoWithin query... should I first add a 2dsphere index to the collection?
+// Or do I add the index in the query itself? Or add lat/long to each resource in the collection?
+// Do I need to update each resource by creating an API call to get its lat/long?
+// How did we do this in weather report? 
+ // Get lat and long of zip code using Mapbox Geocoding API
+
+  // useEffect(() => {
+    // axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${zipCode}.json`, {
+    //   params: {
+    //     access_token: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
+    //   },
+    // })
+    // .then((response) => {
+    //   const [longitude, latitude] = response.data.features[0].center;
+    //   console.log("longitude", longitude);
+    //   // Get resources within 10 mi of zip code
+    //   axios.get(`http://localhost:5000/getInZipCode/?latitude=${latitude}&longitude=${longitude}&radius=10`)
+    //     .then((response) => {
+    //       setResources(response.data);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error fetching resources:", error);
+    //     });
+    //   // Update viewport to center on zip code
+    // 
+  //     setViewport({
+  //       ...viewport,
+  //       latitude,
+  //       longitude,
+  //     });
+  //   })
+  //   .catch((error) => {
+  //     console.error("Error fetching resources:", error);
+  //   });
+  // }, [viewport]);
+
 
 
 

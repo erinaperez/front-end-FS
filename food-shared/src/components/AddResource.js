@@ -91,7 +91,7 @@ const AddResource = () => {
           onChange={handleChange} 
         />
         <input type= 'text'
-          name='contace'
+          name='contact'
           placeholder='Contact (optional):'
           value={formData.contact}
           onChange={handleChange} 

@@ -7,7 +7,6 @@ import ResourceDirectory from "./components/ResourceDirectory";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import "./style.css"
-// import '@fontsource/inter';
 
   const App = () => {
     // State to store zip code for searching resources
@@ -30,7 +29,8 @@ import "./style.css"
               <div className="home">
                 <h1>Welcome to Food Shared</h1>
                 <div className="home-content">
-                <p>Find food and other resources in the directory. Resources included here have no requirements for ID, address, or residency to access, are primarily outdoors, drop-in/drop-by friendly, are community or volunteer run, have broad ranges of open hours, and are not associated with religious or government organizations. Some offer a variety of resources such as produce, toiletries, clothing, or homemade meals. </p>
+                <p>Find food and other no-cost resources in the directory below.</p>
+                <p>Resources included here have no requirements for ID, address, or residency to access, are primarily outdoors, drop-in/drop-by friendly, are community or volunteer run, have broad ranges of open hours, and are not associated with religious or government organizations. Some offer a variety of resources such as produce, toiletries, clothing, or homemade meals. </p>
                 <div className="zip-code-container">
                   <label htmlFor="zipCodeInput">
                     Enter Zip Code: 

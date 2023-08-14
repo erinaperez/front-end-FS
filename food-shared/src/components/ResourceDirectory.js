@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const ResourceDirectory = (zipCode) => {
+const ResourceDirectory = () => {
 
   // State to store resources and selected resource
   const [resources, setResources] = useState([]);
@@ -21,18 +21,18 @@ const ResourceDirectory = (zipCode) => {
   getResources();
   }, []);
 
-  // Get resources for input zip code
-  useEffect(() => {
-    const getResourcesByZip = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/getInZipCode');
-        setResources(response.data);
-      } catch (error) {
-        console.log("Error getting zipcode resources", error);
-      }
-    };
-    getResourcesByZip(zipCode);
-  }, [zipCode]);
+  // // Get resources for input zip code
+  // useEffect(() => {
+  //   const getResourcesByZip = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:5000/getInZipCode');
+  //       setResources(response.data);
+  //     } catch (error) {
+  //       console.log("Error getting zipcode resources", error);
+  //     }
+  //   };
+  //   getResourcesByZip(zipCode);
+  // }, [zipCode]);
 
 
   // Get selected resource
