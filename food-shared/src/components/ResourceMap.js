@@ -1,49 +1,57 @@
 import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import Map, { Marker, Popup } from "react-map-gl";
+import Map, { Marker, Popup, ScaleControl } from "react-map-gl";
 import mapboxgl from "mapbox-gl";
 import axios from "axios";
 
 const ResourceMap = (props) => {
-
-  //   // Initial viewport state
   const [viewport, setViewport] = useState({
     mapboxAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
-    style:{width:'800', height:'600'},
-    mapStyle: "mapbox://styles/mapbox/streets-v12",
     initialViewstate: {
       longitude: -122.70557,
       latitude: 45.51908, 
-      zoom: 3.5
-    }
+      zoom: 14
+    },
+    style:{width:'600', height:'400'},
+    mapStyle: "mapbox://styles/mapbox/streets-v9"
   });
 
   const [resources, setResources] = useState([]);
   const [selectedResource, setSelectedResource] = useState(null);
+  const [showPopup, setShowPopup] = useState(true);
 
   const markerRefs = useRef([]);
-
+  
   const popups = useMemo(() => {
     return resources.map((resource) => ({
       resource,
       popup: new mapboxgl.Popup().setText(
         `${resource.name}\n${resource.address}\n${resource.operatingHours}`
-      ),
-    }));
-  }, [resources]);
-
+        ),
+      }));
+    }, [resources]);
+    
   const handleMarkerClick = useCallback((resource, index) => {
     markerRefs.current[index]?.togglePopup();
-    setSelectedResource(resource);
+    const place = {...resource}
+    setSelectedResource(place);
+    console.log("i was clicked HANDLEMARKERCLICK", resource)
   }, []);
-
+  
   const handleClosePopup = useCallback(() => {
     setSelectedResource(null);
+    setShowPopup(false);
+    console.log("i was clicked HANDLECLOSEPOPUP", selectedResource)
   }, []);
+  
 
-
+  // const popUplog = (resource) => {
+  //   console.log("i was clicked", resource)
+  // };
+  
+  
   useEffect(() => {
     axios
-      .get("http://localhost:5000/resources")
+    .get("http://localhost:5000/resources")
       .then((response) => {
         setResources(response.data);
       })
@@ -56,12 +64,18 @@ const ResourceMap = (props) => {
     <div className="resource-map">
       <h2>Map</h2>
       <Map
-        {...viewport}
+        // {...viewport}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        initialViewstate= {{
+          longitude: -122.70557,
+          latitude: 45.51908, 
+          zoom: 14
+        }}
         style={{ width: "800px", height: "600px" }}
         mapStyle="mapbox://styles/mapbox/streets-v12"
         onViewportChange={setViewport}
       >
+        <ScaleControl />
         {resources.map((resource, index) => (
           <Marker
             key={resource._id}
@@ -73,7 +87,7 @@ const ResourceMap = (props) => {
           >
           </Marker>
         ))}
-        {popups.map(({ resource, popup }, index) =>
+        {popups.map(({ resource, popup }, index) =>        
           selectedResource === resource ? (
             <Popup
               key={resource._id}
@@ -82,13 +96,14 @@ const ResourceMap = (props) => {
               onClose={handleClosePopup}
             >
               <div className="map-popup">
+                {/* { popUplog()  } */}
                 <h3>{resource.name}</h3>
                 <p>{resource.address}</p>
                 <p>{resource.operatingHours}</p>
                 <p>Click to see more info! add directory link</p>
               </div>
             </Popup>
-          ) : null
+          ) : "hi"
         )}
       </Map>
     </div>

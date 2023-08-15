@@ -25,9 +25,9 @@ const ResourceDirectory = () => {
   return (
     <div className="resource-directory">
       <h2>Resource Directory</h2>
-      <ul>
+      <ul className="list-group list-group-flush">
         {resources.map((resource) => (
-          <li key={resource._id} onClick={() => handleResourceClick(selectedResource)}>
+          <li className="list-group-item" key={resource._id} onClick={() => handleResourceClick(selectedResource)}>
             <p>{resource.name}</p>
             <p>Address: {resource.address}</p>
             <p>Type: {resource.typeOfResource}</p>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import AddResource from "./components/AddResource";
 import About from "./components/About";
 import ResourceMap from "./components/ResourceMap";
@@ -11,64 +11,68 @@ import "./style.css"
 
 // import 'mapbox-gl/dist/mapbox-gl.css';
 
-  const App = () => {
-    // State to store zip code for searching resources
-    const [zipCode, setZipCode] = useState("");
-  
-    // Handler zip code input change
-    const handleZipCodeChange = (event) => {
-      setZipCode(event.target.value);
-    };
-  
+const App = () => {
+  // State to store zip code for searching resources
+  const [zipCode, setZipCode] = useState("");
+
+  // Handler zip code input change
+  const handleZipCodeChange = (event) => {
+    setZipCode(event.target.value);
+  };
+
   return (
     <Router>
       <div className="app-container">
         <Nav />
         <Header />
         <Routes>
-          <Route 
-            path="/" 
+          <Route
+            path="/"
             element={
               <div className="home">
-                <h1>Welcome to Food Shared</h1>
                 <div className="home-content">
-                <p>Find food and other no-cost resources in the directory below.</p>
-                <p>Resources included here have no requirements for ID, address, or residency to access, are primarily outdoors, drop-in/drop-by friendly, are community or volunteer run, have broad ranges of open hours, and are not associated with religious or government organizations. Some offer a variety of resources such as produce, toiletries, clothing, or homemade meals. </p>
-                <div className="zip-code-container">
-                  <label htmlFor="zipCodeInput">
-                    Enter Zip Code: 
-                  </label>
-                <input
-                  type="text"
-                  id="zipCodeInput"
-                  value={zipCode}
-                  onChange={handleZipCodeChange}
-                  className="zip-code-input"
-                />
+                <h1>Welcome to Food Shared</h1>
+                  <p>Find food and other no-cost resources in the directory below.</p>
+                  <p>Resources you'll find here are largely community-centered and community-driven. They are low-barrier and most have no requirements for ID, address, or residency to access, are primarily outdoors, drop-in/drop-by friendly, community or volunteer run, offer broad ranges of open hours, and are not associated with religious or government organizations. Some offer a variety of resources beyond food items typically available at food banks, such as produce, toiletries, clothing, or homemade meals.</p>
                 </div>
-              </div>
                 <div className="row">
                   <div className="column">
                     <div className="map-container">
-                      <ResourceMap/> 
+                      <ResourceMap />
+                        </div>
+                        <div className="zip-code-container">
+                          <label htmlFor="zipCodeInput">
+                            Enter Zip Code:
+                          </label>
+                          <input
+                            type="text"
+                            id="zipCodeInput"
+                            value={zipCode}
+                            onChange={handleZipCodeChange}
+                            className="zip-code-input"
+                          />
                     </div>
+
                   </div>
                   <div className="column">
+                    <div className="add-resource-link">
+                      <li><Link to="/add-resource">Add a Resource</Link></li>
+                    </div>
                     <div className="resource-directory-container">
-                      <ResourceDirectory /> 
+                      <ResourceDirectory />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          }
-        />
-        {/* Add Resource Page */}
-        <Route path="/add-resource" element={<AddResource />} />
-        {/* About Page */}
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </div>
-  </Router>
+            }
+          />
+          {/* Add Resource Page */}
+          <Route path="/add-resource" element={<AddResource />} />
+          {/* About Page */}
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

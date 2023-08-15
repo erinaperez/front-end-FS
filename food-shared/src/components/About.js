@@ -4,8 +4,10 @@ function About() {
   return (
     <div>
       <h1>About Food Shared</h1>
-      <p>Description of the app and its purpose.</p>
+      <p></p>
+      <p>Link to the GitHub repo.</p>
       <p>Link relevant resources and my links.</p>
+      
     </div>
   );
 };

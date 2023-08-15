@@ -2,13 +2,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow-wrap: break-word;
+  background-color: #f8f8f8;
 }
 
 header {
-  text-align: center;
+  display: flex; 
+  align-items: center;
+  justify-content: space-around;
   background-color: #f8f8f8;
   padding: 25px 0;
-  border-bottom: 1px solid #ddd;
 }
 
 .app-title{
@@ -16,6 +19,37 @@ header {
   font-family:"Ovo", serif;
   margin: 20px 0;
   padding: 10px;
+}
+
+.app-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Adjust the layout for home page */
+.home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  font-size: 1.25rem;
+  padding: 20px;
+}
+
+.home-content,
+.add-resource-link {
+  width: 50%;
+  padding: 2em;
+  border: 1px light brown;
+  float: left;
+  box-sizing: border-box;
+}
+
+.add-resource-link {
+  float: right;
 }
 
 .home h1 {
@@ -30,20 +64,11 @@ header {
   margin-top: 5px;
 }
 
-/* Adjust the layout for home page */
-.home {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  font-size: 1.25rem;
-  padding: 20px;
-}
-
 .zip-code-container {
   display: flex;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .zip-code-input {
@@ -52,26 +77,45 @@ header {
     font-size: 1rem;
 }
 
-.app-container {
-  width: 100%;
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .map-container {
-  width: 50%;
-  flex: 1;
+  /* position: relative; */
+  width: 90%;
+  height: 600px;
   padding: 20px;
   box-sizing: border-box;
   border: 1px solid #ddd;
+  margin-bottom: 70px;
 }
 
 .resource-directory-container {
-  width: 50%;
-  flex: 1;
+  width: 100%;
+  margin-top: 60px;
+  max-width: 800px;
   padding: 20px;
   box-sizing: border-box;
   border: 1px solid #ddd;
   align-items: center;
   position: relative;
+}
+
+.resource-directory ul {
+  padding: 0;
+  margin: 0;
+  font-family: '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+}
+
+.resource-directory li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
 }
 
 
@@ -84,23 +128,32 @@ ul li {
   align-items: left;
 }
 
+
 @media (min-width: 768px) {
-  .map-container {
-    flex: 0.6;
+  .home-content,
+  .add-resource-link {
+    width: 100%;
+    float: none;
   }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap-reverse;
+  }
+
+  .map-container {
+    flex: 0.8;
+    margin-top: 20px;
+  }
+
 
   .resource-directory-container {
-    flex: 0.4;
+    flex: 0.8;
+    margin-top: 20px;
   }
-}
-
-.row {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* @media (min-width: 768px) {
+} 
+/* 
+@media (min-width: 768px) {
   .row {
     flex-direction: row;
   }

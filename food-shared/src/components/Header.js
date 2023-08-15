@@ -3,8 +3,9 @@ import React from 'react';
 function Header() {
   return (
     <header>
-      <h1 className="app-title">Food Shared</h1>
-      {/* Add image? Background? */}
+      <div className="header-logo">
+        <img src="header.png" alt="Food Shared logo" />
+      </div>
     </header>
   );
 }
