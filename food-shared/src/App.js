@@ -7,6 +7,9 @@ import ResourceDirectory from "./components/ResourceDirectory";
 import Nav from "./components/Nav";
 import Header from "./components/Header";
 import "./style.css"
+// import Map, { Marker, Popup } from "react-map-gl";
+
+// import 'mapbox-gl/dist/mapbox-gl.css';
 
   const App = () => {
     // State to store zip code for searching resources
@@ -47,12 +50,12 @@ import "./style.css"
                 <div className="row">
                   <div className="column">
                     <div className="map-container">
-                      <ResourceMap zipCode={zipCode} /> {/* Passing zipCode to the ResourceMap component */}
+                      <ResourceMap/> 
                     </div>
                   </div>
                   <div className="column">
                     <div className="resource-directory-container">
-                      <ResourceDirectory zipCode={zipCode} /> {/* Passing zipCode to the ResourceDirectory component */}
+                      <ResourceDirectory /> 
                   </div>
                 </div>
               </div>

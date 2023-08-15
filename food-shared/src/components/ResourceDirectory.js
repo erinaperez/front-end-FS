@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
 
 const ResourceDirectory = () => {
-
-  // State to store resources and selected resource
   const [resources, setResources] = useState([]);
   const [selectedResource, setSelectedResource] = useState(null);
 
-  // Get all resources from backend on page load
-  useEffect(() => {  
+  useEffect(() => {
     const getResources = async () => {
       try {
         const response = await axios.get("http://localhost:5000/resources");
@@ -17,63 +14,102 @@ const ResourceDirectory = () => {
       } catch (error) {
         console.log("Error getting all resources", error);
       }
-    }
-  getResources();
+    };
+    getResources();
   }, []);
 
-  // // Get resources for input zip code
-  // useEffect(() => {
-  //   const getResourcesByZip = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:5000/getInZipCode');
-  //       setResources(response.data);
-  //     } catch (error) {
-  //       console.log("Error getting zipcode resources", error);
-  //     }
-  //   };
-  //   getResourcesByZip(zipCode);
-  // }, [zipCode]);
-
-
-  // Get selected resource
-  useEffect(() => {
-    const getSelectedResource = async () => {
-      if (selectedResource) {
-        try {
-          const response = await axios.get('http://localhost:5000/' + selectedResource._id);
-          setSelectedResource([response.data]);
-        } catch (error) {
-          console.log("Error getting selected resource", error);
-        }
-      }
-    };
-    getSelectedResource();
+  const handleResourceClick = useCallback((resource) => {
+    setSelectedResource(resource);
   }, []);
 
   return (
     <div className="resource-directory">
       <h2>Resource Directory</h2>
       <ul>
-        {resources.map(resource => (
-          <li key={resource._id}>
+        {resources.map((resource) => (
+          <li key={resource._id} onClick={() => handleResourceClick(selectedResource)}>
             <p>{resource.name}</p>
-            <p>{resource.address}</p>
-            <p>{resource.typeOfResource}</p>
-            <p>{resource.operatingHours}</p>
-            <p>{resource.affiliation}</p>
-            <p>{resource.indoorsOrOutdoors}</p>
-            <p>{resource.accessibility}</p>
-            <p>{resource.notes}</p>
-            <p>{resource.lastUpdated}</p>
+            <p>Address: {resource.address}</p>
+            <p>Type: {resource.typeOfResource}</p>
+            <p>Hours: {resource.operatingHours}</p>
+            <p>Affiliation: {resource.affiliation}</p>
+            <p>Indoors or Outdoors: {resource.indoorsOrOutdoors}</p>
+            <p>Accessibility: {resource.accessibility}</p>
+            <p>Other notes: {resource.notes}</p>
+            {/* <p>{resource.lastUpdated}</p> */}
             <p>{resource.contact}</p>
           </li>
-          ))}
+        ))}
       </ul>
     </div>
   );
 };
 
 export default ResourceDirectory;
+
+
+// const ResourceDirectory = () => {
+
+//   // State to store resources and selected resource
+//   const [resources, setResources] = useState([]);
+//   const [selectedResource, setSelectedResource] = useState(null);
+
+//   // Get all resources from backend on page load
+//   useEffect(() => {  
+//     const getResources = async () => {
+//       try {
+//         const response = await axios.get("http://localhost:5000/resources");
+//         setResources(response.data);
+//         console.log(response.data);
+//       } catch (error) {
+//         console.log("Error getting all resources", error);
+//       }
+//     }
+//   getResources();
+//   }, [selectedResource]);
+
+//   // Get selected resource
+//   useEffect((selectedResource) => {
+//     const getSelectedResource = async () => {
+//       if (selectedResource) {
+//         try {
+//           const response = await axios.get('http://localhost:5000/' + selectedResource._id);
+//           setSelectedResource([response.data]);
+//         } catch (error) {
+//           console.log("Error getting selected resource", error);
+//         }
+//       }
+//     };
+//     getSelectedResource();
+//   }, []);
+
+//   return (
+//     <div className="resource-directory">
+//       <h2>Resource Directory</h2>
+//       <ul>
+//         {resources.map(resource => (
+//           <li key={resource._id} onClick={() => setSelectedResource(resource)}>
+//               <p>{resource.name}</p>
+//               <p>Address: {resource.address}</p>
+//               <p>Type: {resource.typeOfResource}</p>
+//               <p>Hours: {resource.operatingHours}</p>
+//               <p>Affiliation: {resource.affiliation}</p>
+//               <p>Indoors or Outdoors: {resource.indoorsOrOutdoors}</p>
+//               <p>Accessibility: {resource.accessibility}</p>
+//               <p>Other notes: {resource.notes}</p>
+//               {/* <p>{resource.lastUpdated}</p> */}
+//               <p>{resource.contact}</p>
+//           </li>
+//           ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
+// export default ResourceDirectory;
+
+
+
 
  // const objectTest = {
   //   "_id": {
@@ -90,3 +126,17 @@ export default ResourceDirectory;
   //   "contact": "",
   //   "notes": "None"
   // };
+
+
+  // Get resources for input zip code
+  // useEffect(() => {
+  //   const getResourcesByZip = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:5000/getInZipCode');
+  //       setResources(response.data);
+  //     } catch (error) {
+  //       console.log("Error getting zipcode resources", error);
+  //     }
+  //   };
+  //   getResourcesByZip(zipCode);
+  // }, [zipCode]);

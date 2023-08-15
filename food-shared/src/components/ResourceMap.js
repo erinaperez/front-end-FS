@@ -1,95 +1,94 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import Map, { Marker, Popup } from "react-map-gl";
+import mapboxgl from "mapbox-gl";
 import axios from "axios";
 
-const ResourceMap = () => {
-  // Initial viewport state
+const ResourceMap = (props) => {
+
+  //   // Initial viewport state
   const [viewport, setViewport] = useState({
-    latitude: 37.7749,
-    longitude: -122.4194,
-    width: "100vw",
-    height: "100vw",
-    zoom: 10, // adjust zoom level
-    mapStyle: "mapbox://styles/mapbox/streets-v11",
+    mapboxAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
+    style:{width:'800', height:'600'},
+    mapStyle: "mapbox://styles/mapbox/streets-v12",
+    initialViewstate: {
+      longitude: -122.70557,
+      latitude: 45.51908, 
+      zoom: 3.5
+    }
   });
 
   const [resources, setResources] = useState([]);
   const [selectedResource, setSelectedResource] = useState(null);
 
-  // Get all resources from backend on page load
+  const markerRefs = useRef([]);
+
+  const popups = useMemo(() => {
+    return resources.map((resource) => ({
+      resource,
+      popup: new mapboxgl.Popup().setText(
+        `${resource.name}\n${resource.address}\n${resource.operatingHours}`
+      ),
+    }));
+  }, [resources]);
+
+  const handleMarkerClick = useCallback((resource, index) => {
+    markerRefs.current[index]?.togglePopup();
+    setSelectedResource(resource);
+  }, []);
+
+  const handleClosePopup = useCallback(() => {
+    setSelectedResource(null);
+  }, []);
+
+
   useEffect(() => {
-    axios.get("http://localhost:5000/resources")
+    axios
+      .get("http://localhost:5000/resources")
       .then((response) => {
         setResources(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error getting resources: ", error);
       });
   }, []);
 
-  // Convert address to latitude and longitude
-  useEffect(() => {
-    const getCoordinates = async () => {
-      if (resources) {
-        try {
-          const response = await axios.get(
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${resources.address}.json?access_token=${process.env.REACT_APP_ACCESS_MAPBOX_TOKEN}`
-          );
-          setResources(response.data);
-          console.log(response.data);
-        } catch (error) {
-          console.log("Error getting coordinates", error);
-        }
-      }
-    };
-    getCoordinates();
-  }, []);
-
-    // Handle marker click
-    const handleMarkerClick = (resource) => {
-      setSelectedResource(resource);
-    };
-
-    // Handle popup close
-    const handleClosePopup = () => {
-      setSelectedResource(null);
-    };
-
   return (
     <div className="resource-map">
-      {/* style={{width: '100%', height:'100%', margin: 'auto'}}; */}
       <h2>Map</h2>
-      <Map {...viewport} onViewportChange={setViewport}>
-        {/* Markers */}
-        {resources.map((resource) => (
+      <Map
+        {...viewport}
+        mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        style={{ width: "800px", height: "600px" }}
+        mapStyle="mapbox://styles/mapbox/streets-v12"
+        onViewportChange={setViewport}
+      >
+        {resources.map((resource, index) => (
           <Marker
             key={resource._id}
             latitude={resource.latitude}
             longitude={resource.longitude}
-            onClick={() => handleMarkerClick(resource)}
+            ref={(el) => (markerRefs.current[index] = el)}
+            onClick={() => handleMarkerClick(resource, index)}
+            color="red" 
           >
-            {/* Marker Content */}
-            <button className="marker-btn">
-              <img src="/marker.png" alt="marker" /> {/* replace with marker image */}
-            </button>
           </Marker>
         ))}
-        {/* Popup for selected resource */}
-        {selectedResource && (
-          <Popup
-            latitude={selectedResource.latitude}
-            longitude={selectedResource.longitude}
-            onClose={handleClosePopup}
-          >
-            <div className="map-popup"> {/* style popup */}
-              <h3>{selectedResource.name}</h3>
-              <p>{selectedResource.address}</p>
-              <p>{selectedResource.operatingHours}</p>
-              <p>Click to see more info! add directory link</p>
-              {/* add any other resource details to show in marker view */}
-            </div>
-          </Popup>
+        {popups.map(({ resource, popup }, index) =>
+          selectedResource === resource ? (
+            <Popup
+              key={resource._id}
+              latitude={resource.latitude}
+              longitude={resource.longitude}
+              onClose={handleClosePopup}
+            >
+              <div className="map-popup">
+                <h3>{resource.name}</h3>
+                <p>{resource.address}</p>
+                <p>{resource.operatingHours}</p>
+                <p>Click to see more info! add directory link</p>
+              </div>
+            </Popup>
+          ) : null
         )}
       </Map>
     </div>
@@ -97,6 +96,102 @@ const ResourceMap = () => {
 };
 
 export default ResourceMap;
+
+
+
+
+
+// const ResourceMap = (props) => {
+//   // Initial viewport state
+//   const [viewport, setViewport] = useState({
+//     mapboxAccessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN,
+//     style:{width:'800', height:'600'},
+//     mapStyle: "mapbox://styles/mapbox/streets-v12",
+//     initialViewstate: {
+//       longitude: -122.70557,
+//       latitude: 45.51908, 
+//       zoom: 3.5
+//     }
+//   });
+
+//     // Handle marker click
+//     const handleMarkerClick = (resource) => {
+//       setSelectedResource(resource);
+//     };
+
+//       // const marker = new mapboxgl.Marker()
+
+//     // Handle popup close
+//     const handleClosePopup = () => {
+//       setSelectedResource(null);
+//     };
+
+//   const [resources, setResources] = useState([]);
+//   const [selectedResource, setSelectedResource] = useState(null);
+
+//   // Get all resources from backend on page load
+//   useEffect(() => {
+//     axios.get("http://localhost:5000/resources")
+//       .then((response) => {
+//         setResources(response.data);
+//         console.log(response.data);
+//       })
+//       .catch((error) => {
+//         console.error("Error getting resources: ", error);
+//       });
+//   }, []);
+
+
+
+//   return (
+//     <div className="resource-map">
+//       <h2>Map</h2>
+//       <Map {...viewport}  
+//         mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} 
+//         initialViewstate={{
+//           longitude: -122.70557,
+//           latitude: 45.51908, 
+//           zoom: 1
+//           }} 
+//         style={{width:800, height:600}} 
+//         mapStyle="mapbox://styles/mapbox/streets-v12" 
+//         onViewportChange={setViewport}>
+//         {/* Markers */}
+//         {resources.map((resource) => (
+//           <Marker
+//             key={resource._id}
+//             latitude={resource.latitude}
+//             longitude={resource.longitude}
+//             onClick={() => handleMarkerClick(resource)}
+//           >
+//             {/* Marker Content */}
+//             <button className="marker-btn">
+//               <img src="assets/marker.png" alt="marker" /> 
+//             </button>
+//           </Marker>
+//         ))}
+//         {/* Popup for selected resource */}
+//         {selectedResource && (
+//           <Popup
+//             latitude={selectedResource.latitude}
+//             longitude={selectedResource.longitude}
+//             onClose={handleClosePopup}
+//           >
+//             <div className="map-popup"> {/* style popup */}
+//               <h3>{selectedResource.name}</h3>
+//               <p>{selectedResource.address}</p>
+//               <p>{selectedResource.operatingHours}</p>
+//               <p>Click to see more info! add directory link</p>
+//               {/* add any other resource details to show in marker view */}
+//             </div>
+//           </Popup>
+//         )}
+//       </Map>
+//     </div>
+//   );
+// };
+
+// export default ResourceMap;
 
 
 
@@ -290,3 +385,65 @@ export default ResourceMap;
 //     </div>
 //   );
 // };
+
+
+
+
+
+// useEffect(() => {
+//   axios.get("http://localhost:5000/resources")
+//     .then((response) => {
+//       setResources(response.data);
+//       console.log(response.data);
+//     })
+//     .catch((error) => {
+//       console.error("Error getting resources: ", error);
+//     });
+// }, []);
+
+// // Convert address to latitude and longitude
+// useEffect(() => {
+//   const getCoordinates = async () => {
+//     if (resources) {
+//       try {
+//         const response = await axios.get(
+//           `https://api.mapbox.com/geocoding/v5/mapbox.places/${resources.address}.json?access_token=${process.env.REACT_APP_ACCESS_MAPBOX_TOKEN}`
+//         );
+//         setResources(response.data);
+//         console.log(response.data);
+//       } catch (error) {
+//         console.log("Error getting coordinates", error);
+//       }
+//     }
+//   };
+//   getCoordinates();
+// }, []);
+
+
+
+
+
+// useEffect(() => {
+//   const getResources = async () => {
+//     try {
+//       const response = await axios.get("http://localhost:5000/resources");
+//       const resourcesWithCoords = await Promise.all(
+//         response.data.map(async (resource) => {
+//           const response = await axios.get(
+//             `https://api.mapbox.com/geocoding/v5/mapbox.places/${resource.address}.json?access_token=${process.env.REACT_APP_ACCESS_MAPBOX_TOKEN}`
+//           );
+//           const coordinates = response.data.features[0].geometry.coordinates;
+//           return {
+//             ...resource,
+//             longitude: coordinates[0],
+//             latitude: coordinates[1],
+//           };
+//         })
+//       );
+//       setResources(resourcesWithCoords);
+//     } catch (error) {
+//       console.error("Error getting resources: ", error);
+//     }
+//   };
+//   getResources();
+// }, []);
