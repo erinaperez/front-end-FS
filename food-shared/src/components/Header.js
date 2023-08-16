@@ -4,7 +4,7 @@ function Header() {
   return (
     <header>
       <div className="header-logo">
-        <img src="header.png" alt="Food Shared logo" />
+        <img style={{ width: "100%", height: "50%" }} src="header.png" alt="Food Shared logo" />
       </div>
     </header>
   );

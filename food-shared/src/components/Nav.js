@@ -18,13 +18,13 @@ function Nav() {
       {isOpen && (
         <ul className={`nav-links ${isOpen ? 'open' : ''}`}>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">home</Link>
           </li>
           <li>
-            <Link to="/add-resource">Add Resource</Link>
+            <Link to="/add-resource">add resource</Link>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <Link to="/about">about</Link>
           </li>
         </ul>
       )}

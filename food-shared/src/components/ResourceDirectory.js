@@ -28,7 +28,7 @@ const ResourceDirectory = () => {
       <ul className="list-group list-group-flush">
         {resources.map((resource) => (
           <li className="list-group-item" key={resource._id} onClick={() => handleResourceClick(selectedResource)}>
-            <p>{resource.name}</p>
+            <h3>{resource.name}</h3>
             <p>Address: {resource.address}</p>
             <p>Type: {resource.typeOfResource}</p>
             <p>Hours: {resource.operatingHours}</p>
@@ -37,7 +37,7 @@ const ResourceDirectory = () => {
             <p>Accessibility: {resource.accessibility}</p>
             <p>Other notes: {resource.notes}</p>
             {/* <p>{resource.lastUpdated}</p> */}
-            <p>{resource.contact}</p>
+            <p>Contact: {resource.contact}</p>
           </li>
         ))}
       </ul>

@@ -3,6 +3,7 @@
 /.pnp
 .pnp.*
 .vscode/
+.
 
 # testing
 /coverage

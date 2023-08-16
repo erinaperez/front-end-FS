@@ -48,7 +48,6 @@ const ResourceMap = (props) => {
   //   console.log("i was clicked", resource)
   // };
   
-  
   useEffect(() => {
     axios
     .get("http://localhost:5000/resources")
@@ -64,14 +63,14 @@ const ResourceMap = (props) => {
     <div className="resource-map">
       <h2>Map</h2>
       <Map
-        // {...viewport}
+        {...viewport}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         initialViewstate= {{
           longitude: -122.70557,
           latitude: 45.51908, 
           zoom: 14
         }}
-        style={{ width: "800px", height: "600px" }}
+        style={{ width: "100%", height: "600px" }}
         mapStyle="mapbox://styles/mapbox/streets-v12"
         onViewportChange={setViewport}
       >
@@ -93,6 +92,7 @@ const ResourceMap = (props) => {
               key={resource._id}
               latitude={resource.latitude}
               longitude={resource.longitude}
+              onOpen={popup.togglePopup}
               onClose={handleClosePopup}
             >
               <div className="map-popup">
@@ -100,10 +100,10 @@ const ResourceMap = (props) => {
                 <h3>{resource.name}</h3>
                 <p>{resource.address}</p>
                 <p>{resource.operatingHours}</p>
-                <p>Click to see more info! add directory link</p>
+                <p>Click to see more</p>
               </div>
             </Popup>
-          ) : "hi"
+          ) : null
         )}
       </Map>
     </div>
