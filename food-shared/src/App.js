@@ -34,12 +34,12 @@ const App = () => {
             element={
               <div className="home">
                 <div className="home-content">
-                  <h1>Welcome to Food Shared</h1>
-                  <p>Find food and other no-cost resources in the directory below.</p>
-                  <p>This resources directory aims to be community-centered and community-driven. The resources included here are low-barrier and most have no requirements for ID, address, or residency to access, are primarily outdoors, drop-in/drop-by friendly, community or volunteer run, offer broad ranges of open hours, and are not associated with religious or government organizations. Some offer a variety of resources beyond food items typically available at food banks, such as produce, toiletries, clothing, or homemade meals.</p>
-                </div>
-                <div className="add-resource-link">
-                  <li><Link to="/add-resource">Add a Resource</Link></li>
+                  <div>
+                    <Link to= "/add-resource">
+                      <img style={{ width: "100%", height: "80%" }} src="home-content.png" 
+                      alt="Food Shared description and Add Resources link" />
+                    </Link>
+                  </div>
                 </div>
                 <div className="map-container">
                   <ResourceMap />

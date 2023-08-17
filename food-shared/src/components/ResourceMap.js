@@ -87,13 +87,18 @@ const ResourceMap = (props) => {
           </Marker>
         ))}
         {popups.map(({ resource, popup }, index) =>        
-          selectedResource === resource ? (
+          selectedResource ? (
             <Popup
               key={resource._id}
               latitude={resource.latitude}
               longitude={resource.longitude}
-              onOpen={popup.togglePopup}
-              onClose={handleClosePopup}
+              // onOpen={popup.togglePopup}
+              // onClose={handleClosePopup}
+              closeButton={true}
+              closeOnClick={false}
+              onClose={() => setShowPopup({})}
+              anchor="top"
+              dynamicPosition={true}
             >
               <div className="map-popup">
                 {/* { popUplog()  } */}

@@ -15,7 +15,16 @@ header {
   justify-content: space-around;
   object-fit: scale-down;
   background-color: #f8f8f8;
-  padding: 3px;
+  padding: 0px;
+}
+
+.home-content-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 0px;
 }
 
 .nav-container{
@@ -42,27 +51,17 @@ header {
   justify-content: space-around;
   text-align: center;
   font-size: 1.25rem;
-  padding: 20px;
+  padding: .5px;
 }
 
 .home-content {
   width: 50%;
-  padding: 2.5em;
+  padding: 0;
   border: 1px light gray solid;
   box-sizing: border-box;
 }
 
-.home h1 {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 1.5rem;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
 
-.home p {
-  font-size: 1.2rem;
-  margin-top: 5px;
-}
 
 .zip-code-container {
   display: flex;
@@ -90,7 +89,6 @@ header {
   padding: 20px;
   justify-content: center;
   box-sizing: border-box;
-  border: 1px solid #ddd;
   margin-bottom: 0px;
 }
 

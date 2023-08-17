@@ -69,7 +69,7 @@ const AddResource = () => {
                 onChange={handleChange}
               />
               <Form.Text className="text-muted">
-                Can add more than one, e.g., pantry, fridge, free market, meal delivery, toiletries, etc.
+                You can add multiple, e.g., pantry, fridge, free market, meal delivery, toiletries, etc.
               </Form.Text>
             </Form.Group>
             <Form.Group controlId="formAffiliation">
