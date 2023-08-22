@@ -19,7 +19,6 @@ Frontend dependencies include:
  * react-dom
  * react-map-gl
  * react-map-gl-geocoder
- * react-mapbox-gl-geocoder
  * react-mapbox-geocoder
  * react-router
  * react-router-dom
