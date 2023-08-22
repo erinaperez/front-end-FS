@@ -38,7 +38,8 @@ You will need to install the backend repository to fully test development.
 
 ## Forthcoming and Future Enhancements... 
  - Expand beyond Portland
- - Completing the admin admin panel to moderate user submissions
+ - Complete the admin admin panel to moderate user submissions
+ - Deploy frontend and backend
  - Add testing to ensure comprehensive code coverage
  - Implement filters for the directory/map
  - Improve zip code search and radius options
