@@ -1,12 +1,13 @@
-# Food Shared - Front-end
+# Food Shared - Frontend
 
-Food Shared is a web application that allows users to easily find information and locations to get or donate free food and other resources. It is currently local to Portland, Oregon, but will be expanded to include more locations in the future. It includes a map and an associated directory of public pantries, free fridges, hot meals, and other accessible food assistance. 
-While food banks and state-affiliated food assistance programs are crucial resources for people experiencing food insecurity, they present barriers in many cases. Community-centered and mutual aid resources with low barriers to access are prioritized. Many are accessible in ways that state-affiliated resources may not be. The resources will be regularly added to and updated. 
+Food Shared is a web application that helps users easily find free food and other resources. It addresses the concern that although food banks and state-affiliated food assistance programs are crucial resources for millions experiencing food insecurity, these institutions present significant barriers for some individuals and families. The Food Shared directory highlights community-centered and mutual aid-driven resources with low barriers to access, including public pantries, community fridges, hot meals, and other accessible food assistance. Resources are accessible in ways that government and state-affiliated resources often are not or cannot be. 
+
+The directory is local to Portland, Oregon, but it will be expanded to include more locations in the future and it will be updated regularly. 
 
 ## Dependencies 
-This project uses the MERN techstack with RESTful API routes with React on the front-end and Express.js in the back-end. 
+This project uses the MERN techstack with RESTful API routes, React for frontend and Express.js for backend. 
 
-See the dependencies below: 
+Frontend dependencies include: 
  * axios
  * jest testing library
  * babel
@@ -26,27 +27,28 @@ See the dependencies below:
 
 ## Installation
 1. Git clone the repository
-2. Install dependencies by running `yarn add` (install yarn if you don't have it already, or if you prefer npm use `npm install`)
+2. Install the dependencies by running `yarn add` (install yarn if you don't have it already, or if you prefer npm use `npm install`)
 3. Create a  .env file on the root directory and add the variable:
     -   ```REACT_APP_MAPBOX_ACCESS_TOKEN=YOURMAPBOXACCESSTOKEN```
-4. Run the server with:
+4. Replace YOURMAPBOXACCESSTOKEN with your own access Mapbox access token.
+5. Run the server with:
     -   ```yarn start```
 
-You will also need to install the back-end repository to fully test development. 
+You will need to install the backend repository to fully test development. 
 
-  
 ## Forthcoming and Future Enhancements... 
- - Finish the admin admin panel to moderate user submissions
+ - Expand beyond Portland
+ - Completing the admin admin panel to moderate user submissions
+ - Add testing to ensure comprehensive code coverage
  - Implement filters for the directory/map
  - Improve zip code search and radius options
- - Registration for users who help run or organize resources
- - Implement a voluntary user survey to collect and present useful data
- - Use data to show which areas are most searched and  what types of foods/resources are most sought out?
- - Incorporate info for folks wanting to donate or volunteer time, i.e., community and personal gardeners with surplus food
- - Expand beyond Portland
+ - Registration for users who run or organize resources
+ - Add a voluntary user survey to collect and present useful data
+ - Use data to show most frequently searched areas and most sought types of foods/resources
+ - Incorporate information on donating items or volunteering time
 
 
 
+Input and feedback is welcome!
 
 https://github.com/erinaperez/front-end-FS/assets/111480454/48f6a183-35cf-4f3e-9925-b99a425e7e0c
-
