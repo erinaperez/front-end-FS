@@ -35,7 +35,7 @@ Frontend dependencies include:
 
 You will need to install the backend repository to fully test development. 
 
-## Forthcoming and Future Enhancements... 
+## Forthcoming and Future Enhancements
  - Expand beyond Portland
  - Complete the admin admin panel to moderate user submissions
  - Deploy frontend and backend
@@ -43,8 +43,8 @@ You will need to install the backend repository to fully test development.
  - Implement filters for the directory/map
  - Improve zip code search and radius options
  - Registration for users who run or organize resources
- - Add a voluntary user survey to collect and present useful data
- - Use data to show most frequently searched areas and most sought types of foods/resources
+ - Add a voluntary user survey to collect useful data
+ - Use data to show most frequently searched zip codes and most sought types of foods/resources
  - Incorporate information on donating items or volunteering time
 
 
