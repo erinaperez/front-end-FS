@@ -16,8 +16,9 @@ const ResourceMap = (props) => {
   });
 
   const [resources, setResources] = useState([]);
+  // let flag = true;
   const [selectedResource, setSelectedResource] = useState(null);
-  const [showPopup, setShowPopup] = useState(true);
+  const [showPopup, setShowPopup] = useState({});
 
   const markerRefs = useRef([]);
   
@@ -31,22 +32,21 @@ const ResourceMap = (props) => {
     }, [resources]);
     
   const handleMarkerClick = useCallback((resource, index) => {
+    console.log(markerRefs, "marker refs");
+    console.log(index);
     markerRefs.current[index]?.togglePopup();
     const place = {...resource}
     setSelectedResource(place);
+    // setShowPopup(!flag);
     console.log("i was clicked HANDLEMARKERCLICK", resource)
   }, []);
   
   const handleClosePopup = useCallback(() => {
     setSelectedResource(null);
-    setShowPopup(false);
+    // setShowPopup(!flag);
     console.log("i was clicked HANDLECLOSEPOPUP", selectedResource)
   }, []);
   
-
-  // const popUplog = (resource) => {
-  //   console.log("i was clicked", resource)
-  // };
   
   useEffect(() => {
     axios
@@ -63,7 +63,7 @@ const ResourceMap = (props) => {
     <div className="resource-map">
       <h2>Map</h2>
       <Map
-        {...viewport}
+        // {...viewport}
         mapboxAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         initialViewstate= {{
           longitude: -122.70557,
@@ -82,34 +82,30 @@ const ResourceMap = (props) => {
             longitude={resource.longitude}
             ref={(el) => (markerRefs.current[index] = el)}
             onClick={() => handleMarkerClick(resource, index)}
-            color="red" 
+            color="red"   
           >
           </Marker>
         ))}
-        {popups.map(({ resource, popup }, index) =>        
-          selectedResource ? (
+          {showPopup && selectedResource? (
             <Popup
-              key={resource._id}
-              latitude={resource.latitude}
-              longitude={resource.longitude}
-              // onOpen={popup.togglePopup}
-              // onClose={handleClosePopup}
-              closeButton={true}
+              key={selectedResource._id}
+              latitude={selectedResource.latitude}
+              longitude={selectedResource.longitude}
               closeOnClick={false}
-              onClose={() => setShowPopup({})}
               anchor="top"
               dynamicPosition={true}
             >
               <div className="map-popup">
                 {/* { popUplog()  } */}
-                <h3>{resource.name}</h3>
-                <p>{resource.address}</p>
-                <p>{resource.operatingHours}</p>
+                <h3>{selectedResource.name}</h3>
+                <p>{selectedResource.address}</p>
+                <p>{selectedResource.operatingHours}</p>
                 <p>Click to see more</p>
               </div>
             </Popup>
           ) : null
-        )}
+        // )
+        }
       </Map>
     </div>
   );

@@ -36,10 +36,9 @@ const AddResource = () => {
   return (
     <div className="AddResource">
       <div className="add-resource-container">
-        <div className="add-resource-img">
-          <img style={{ width: "80%", height: "60%" }} src="add-resource.gif" 
+          <img style={{ width: "85%", height: "65%" }} src="add-resource.png" 
           alt="Add a Resource: Complete the form below with as much information as possible to have a resource added to the directory & map. Submissions will be reviewed within 2-4 business days. If you provided contact information we will reach out if any clarification is needed.  Thank you!" />
-        </div>
+        {/* </div> */}
         <div className="add-resource-form">
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formName">
@@ -153,7 +152,7 @@ const AddResource = () => {
           </Form>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
