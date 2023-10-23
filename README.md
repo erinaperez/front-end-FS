@@ -2,12 +2,12 @@
 
 Food Shared is a web application that helps users easily find free food and other resources. It addresses the concern that although food banks and state-affiliated food assistance programs are crucial resources for millions experiencing food insecurity, these institutions present significant barriers for some individuals and families. The Food Shared directory highlights community-centered and mutual aid-driven resources with low barriers to access, including public pantries, community fridges, hot meals, and other accessible food assistance. Resources are accessible in ways that government and state-affiliated resources often are not or cannot be. 
 
-The directory is local to Portland, Oregon, but it will be expanded to include more locations in the future and it will be updated regularly. 
+The directory is local to Portland, Oregon, but it will be expanded to include more locations in the future and will be updated regularly. 
 
 ## Dependencies 
-This project uses the MERN techstack with RESTful API routes, React for frontend and Express.js for backend. 
+This project uses the MERN stack with RESTful API routes, React for the frontend and Express.js for backend. 
 
-Frontend dependencies include: 
+Frontend dependencies: 
  * axios
  * jest testing library
  * babel
