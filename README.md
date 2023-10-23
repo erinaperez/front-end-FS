@@ -25,19 +25,21 @@ Frontend dependencies:
  * yarn
 
 ## Installation
-1. Git clone the repository
-2. Install the dependencies by running `yarn add` (install yarn if you don't have it already, or if you prefer npm use `npm install`)
+1. Git clone the repository:
+    -   ```git clone https://github.com/erinaperez/front-end-FS.git```
+2. Install the dependencies by running `yarn add`
 3. Create a  .env file on the root directory and add the variable:
     -   ```REACT_APP_MAPBOX_ACCESS_TOKEN=YOURMAPBOXACCESSTOKEN```
-4. Replace YOURMAPBOXACCESSTOKEN with your own access Mapbox access token.
+4. Replace YOURMAPBOXACCESSTOKEN with your own Mapbox access token.
 5. Run the server with:
     -   ```yarn start```
 
-You will need to install the backend repository to fully test development. 
+You will need to install the backend repository to fully test development - 
+https://github.com/erinaperez/backend-food-shared/ 
 
 ## Forthcoming and Future Enhancements
  - Expand beyond Portland
- - Complete the admin admin panel to moderate user submissions
+ - Complete the admin panel to moderate user submissions
  - Deploy frontend and backend
  - Add testing to ensure comprehensive code coverage
  - Implement filters for the directory/map
